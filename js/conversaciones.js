@@ -136,3 +136,95 @@ window.DEMO.seguimiento = [
     texto: 'laura, que ya lo tenemos aquí! el lunes a las 18:30 salimos, y nosotros con muchísimas ganas. si celebráis algo o queréis que tengamos algo en cuenta, cuéntamelo sin problema'
   }
 ];
+
+/*
+  CORREOS DE LA BANDEJA — en el orden en que llegan.
+    tipo: 'publicidad' | 'automatico' | 'proveedor' | 'cliente'
+    etiqueta: lo que aparece al procesar
+    motivo: por qué se ha ignorado (se ve al abrirlo)
+    respuesta: solo en los de clientes. Entre [corchetes] va el botón de la web.
+*/
+window.DEMO.correos = [
+  {
+    remitente: 'Náutica Levante',
+    hora: '07:02',
+    asunto: 'Solo esta semana: -30 % en defensas y cabos',
+    extracto: 'Prepara tu barco para la temporada con nuestras ofertas…',
+    cuerpo: 'Prepara tu barco para la temporada con nuestras ofertas exclusivas.\n\nSolo esta semana, -30 % en defensas, cabos y material de amarre. Envío gratis a partir de 60 €.',
+    tipo: 'publicidad',
+    etiqueta: 'Ignorado — publicidad',
+    motivo: 'Es publicidad. Se queda en la bandeja por si os interesa, pero no se contesta.'
+  },
+  {
+    remitente: 'Javier Morales',
+    hora: '07:48',
+    asunto: 'Día completo el 22 de agosto',
+    extracto: 'Buenos días, somos un grupo de 6 amigos y nos gustaría…',
+    cuerpo: 'Buenos días,\n\nSomos un grupo de 6 amigos y nos gustaría hacer una salida de día completo el 22 de agosto. ¿Qué incluye y qué precio tiene?\n\nGracias,\nJavier',
+    tipo: 'cliente',
+    etiqueta: 'Petición de chárter — respondida',
+    respuesta: {
+      tiempo: 'contestado en 38 segundos',
+      texto: 'Hola Javier,\n\nMuchas gracias por escribirnos, qué buen plan para hacer con amigos.\n\nEl día completo es de 10:00 a 18:00 y hacéis cuatro paradas en cuatro calas de la costa de Andratx, a bordo de nuestro llaut mallorquín de más de 50 años. Va con patrón profesional, combustible de la ruta, snacks, refrescos, agua, paddle surf, snorkel, sea scooter, seguro y limpieza.\n\nLo único que no entra es la comida, y ahí está parte de la gracia: se para a comer en un restaurante de cala, en Sant Elmo o en Cala Illamp, y es un planazo. Todo esto son 2000 €.\n\nHe mirado el calendario y el 22 de agosto lo tenemos libre. Podéis reservarlo directamente aquí: [Reservar en la web]\n\nUn saludo,\nCarlo Mar Charter',
+      agenda: 'Apuntado en Google Calendar: consulta de Javier Morales · 22 de agosto · día completo · 6 personas.'
+    }
+  },
+  {
+    remitente: 'Portal de amarres',
+    hora: '08:15',
+    asunto: 'Tu código de verificación: 482 913',
+    extracto: 'Usa este código para entrar en tu cuenta. Caduca en 10 minutos.',
+    cuerpo: 'Usa este código para entrar en tu cuenta: 482 913.\n\nCaduca en 10 minutos. Si no has sido tú, ignora este mensaje.',
+    tipo: 'automatico',
+    etiqueta: 'Ignorado — automático',
+    motivo: 'Mensaje automático de una plataforma. No hay nadie a quien contestar.'
+  },
+  {
+    remitente: 'Varadero Sa Punta',
+    hora: '08:40',
+    asunto: 'Factura F-0412 · mantenimiento de junio',
+    extracto: 'Adjuntamos la factura correspondiente al mantenimiento…',
+    cuerpo: 'Buenos días,\n\nAdjuntamos la factura correspondiente al mantenimiento del mes de junio.\n\nUn saludo,\nAdministración',
+    tipo: 'proveedor',
+    etiqueta: 'Ignorado — factura de proveedor',
+    motivo: 'Es una factura de un proveedor. No se contesta: se queda marcada para que la reviséis vosotros.'
+  },
+  {
+    remitente: 'Emma Collins',
+    hora: '09:03',
+    asunto: 'Sunset trip in July, with our dog?',
+    extracto: 'Hi! We\'re a family of four visiting from Manchester, 14–21 July…',
+    cuerpo: 'Hi!\n\nWe\'re a family of four visiting from Manchester, 14–21 July. We\'d love to do a sunset trip one of those evenings. What\'s included and how much is it? Also, can our dog come along?\n\nThanks!\nEmma',
+    tipo: 'cliente',
+    etiqueta: 'Petición de chárter — respondida',
+    respuesta: {
+      tiempo: 'contestado en 41 segundos',
+      texto: 'Hi Emma,\n\nThanks so much for getting in touch. And yes, your dog is more than welcome on board. We sail with our own dogs, so no problem at all.\n\nThe sunset trip goes from 18:30 to 21:30 along the Andratx coast, on our traditional Mallorcan llaut, a wooden boat with more than 50 years of history. It includes the skipper, fuel, snacks, soft drinks, water, paddleboard, snorkel, sea scooter, insurance and cleaning. And a swim in a quiet cove with the evening light, which is the best part. It\'s 1100 € in total.\n\nI\'ve checked the calendar for your week and the 15th, 16th and 17th of July are all free. Whichever suits you best, you can book it here: [Book on our website]\n\nBest wishes,\nCarlo Mar Charter',
+      agenda: 'Apuntado en Google Calendar: consulta de Emma Collins · 14-21 de julio · sunset · 4 personas + perro · en inglés.'
+    }
+  },
+  {
+    remitente: 'Mallorca Boat Show',
+    hora: '09:20',
+    asunto: 'Últimas entradas early bird 🎟️',
+    extracto: 'No te quedes sin tu entrada con descuento para la feria…',
+    cuerpo: 'No te quedes sin tu entrada con descuento para la feria náutica del año. Plazas limitadas.',
+    tipo: 'publicidad',
+    etiqueta: 'Ignorado — publicidad',
+    motivo: 'Es publicidad. Se queda en la bandeja por si os interesa, pero no se contesta.'
+  },
+  {
+    remitente: 'Formulario de la web',
+    hora: '09:34',
+    asunto: 'Nuevo mensaje de Carmen Ruiz',
+    extracto: 'Hola, queríamos el medio día + sunset el 5 de agosto, somos 4…',
+    cuerpo: 'Nombre: Carmen Ruiz\nMensaje: Hola, queríamos el medio día + sunset el 5 de agosto, somos 4 adultos. ¿Está disponible?',
+    tipo: 'cliente',
+    etiqueta: 'Consulta de la web — respondida',
+    respuesta: {
+      tiempo: 'contestado en 35 segundos',
+      texto: 'Hola Carmen,\n\nGracias por escribirnos desde la web.\n\nHe mirado el calendario y el 5 de agosto ya lo tenemos reservado, pero el 6 está libre, por si os encaja.\n\nEl medio día + sunset es de 14:00 a 21:30: toda la tarde en el agua y la vuelta con el atardecer. Va con patrón profesional, combustible, snacks, refrescos, agua, paddle surf, snorkel, sea scooter, seguro y limpieza. Son 2050 €.\n\nSi el 6 os va bien, podéis reservarlo aquí: [Reservar en la web]\n\nUn saludo,\nCarlo Mar Charter',
+      agenda: 'Apuntado en Google Calendar: consulta de Carmen Ruiz · pedía el 5 de agosto (ocupado), se le ofrece el 6 · medio día + sunset · 4 personas.'
+    }
+  }
+];
