@@ -352,6 +352,12 @@
     entrar: function () { if (window.EquipoDemo) window.EquipoDemo.mostrar(); },
     salir: function () { if (window.EquipoDemo) window.EquipoDemo.pausar(); }
   };
+  alCambiar.prueba = {
+    entrar: function () {
+      // En escritorio, el cursor ya en la caja de texto
+      if (window.matchMedia('(min-width: 900px)').matches) setTimeout(function () { var i = $('#pr-input'); if (i) i.focus({ preventScroll: true }); }, 300);
+    }
+  };
   alCambiar.flota = {
     entrar: function () { if (window.FlotaDemo) window.FlotaDemo.mostrar(); }
   };
@@ -376,6 +382,9 @@
 
   // Para que las otras secciones puedan saltar de una a otra
   window.irASeccion = function (n) { irA(n); };
+  $$('.ir-prueba').forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); irA('prueba'); });
+  });
 
   pintarSelector();
 

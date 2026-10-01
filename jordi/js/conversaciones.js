@@ -15,14 +15,14 @@ window.DEMO = window.DEMO || {};
 
 /* Nombre del negocio: se cambia aquí y sale en toda la demo. */
 window.DEMO.marca = {
-  nombre: 'Charter Balear',
+  nombre: 'SeaTime',
   responsable: 'Jordi'
 };
 
 window.DEMO.enlaceReserva = {
-  titulo: 'Reserva tu lancha · Charter Balear',
+  titulo: 'Reserva tu lancha · SeaTime',
   texto: 'Barco, día y horario ya puestos. Solo datos y señal',
-  dominio: 'reservas.charterbalear.com'
+  dominio: 'web de seatime'
 };
 
 window.DEMO.conversaciones = [

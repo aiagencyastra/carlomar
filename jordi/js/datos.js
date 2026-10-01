@@ -27,7 +27,7 @@ window.DEMO.flota = [
   },
   {
     nombre: 'Cala', tipo: 'Lancha con licencia', medida: '6,7 m', personas: 7, base: 'Puerto Portals',
-    precio: 'Día 420 €', extra: 'Necesita PNB o superior · 150 cv',
+    precio: 'Medio día 300 € · día 420 €', extra: 'Necesita PNB o superior · 150 cv',
     quien: 'bot',
     semana: [['l','l'],['l','l'],['o','o'],['l','l'],['o','o'],['o','o'],['l','l']]
   },

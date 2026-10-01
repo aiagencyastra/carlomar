@@ -1,4 +1,4 @@
-# Notas para la reunión con Jordi
+# Notas para la reunión con Jordi (SeaTime)
 
 ## Lo que pidió (llamada)
 - Agente de WhatsApp que conteste solo lo de más volumen: lanchas pequeñas, salidas de día.
@@ -9,6 +9,7 @@
 - Todo **self-hosted en un VPS** (Ubuntu), n8n incluido. No quiere nube.
 - Presupuesto desglosado en dos versiones: **todo hecho por nosotros** vs **lo instala él + soporte**. Presupuesto ajustado; quieren mantenerlo todo el año y probarlo.
 - Reunión: **jueves a las 15:00**.
+- Empresa: **SeaTime**. Este año se mueven también a Mallorca.
 
 ## Supuestos de la demo (todo inventado, a confirmar)
 - Nombre del negocio, barcos, precios, puertos y horarios son de ejemplo.
@@ -22,6 +23,7 @@
 4. ¿Cuántos del equipo usarían Chatwoot? ¿Qué idiomas reciben más?
 5. ¿Tienen ya VPS? ¿Proveedor y tamaño? (para n8n + Chatwoot + Postgres, mínimo ~4 GB de RAM, mejor 8 GB).
 6. Precios y reglas reales por barco (fianza, gasolina, titulación, horarios).
+7. ¿Dónde está su otra base, además de Mallorca? ¿El bot tiene que preguntar al cliente en qué isla o zona quiere salir?
 
 ## A comprobar por nuestra parte antes de prometer
 - **Llamadas de WhatsApp en Chatwoot**: confirmar en la versión actual que la integración de llamadas de WhatsApp Cloud API funciona en la app móvil, no solo en la web.
