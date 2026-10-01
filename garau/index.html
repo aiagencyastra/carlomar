@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Garau · Presupuestador</title>
+  <meta name="description" content="Pídele un mueble con sus medidas y te da el precio del proveedor y el de venta. Demostración preparada por Polaris.">
+  <meta name="theme-color" content="#13233F">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2313233F'/%3E%3Cpath d='M16 5l2.6 8.4L27 16l-8.4 2.6L16 27l-2.6-8.4L5 16l8.4-2.6z' fill='%23D99A2B'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header class="cabecera">
+    <div class="envoltura cabecera-in">
+      <svg class="estrella" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3l3 10 10 3-10 3-3 10-3-10-10-3 10-3z"/></svg>
+      <div>
+        <h1>Garau · Presupuestador de cocinas</h1>
+        <p class="firma">Demostración preparada por Polaris, agencia de inteligencia artificial</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="entrada envoltura">
+    <p class="frase">Le dais las medidas y él busca en la tarifa del proveedor, redondea, pone las puertas que tocan y os da el precio de venta. Sin abrir el Excel.</p>
+  </section>
+
+  <nav class="pestanas" aria-label="Secciones">
+    <div class="envoltura">
+      <div class="pestanas-in" role="tablist">
+        <button class="pestana activa" role="tab" aria-selected="true" aria-controls="sec-preguntar" id="tab-preguntar" data-seccion="preguntar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg><span>Preguntar</span>
+        </button>
+        <button class="pestana" role="tab" aria-selected="false" aria-controls="sec-cocina" id="tab-cocina" data-seccion="cocina">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="9" rx="1"/><path d="M3 15h18M12 11v9M5 4h14v4H5z"/></svg><span>Nueva cocina</span>
+        </button>
+        <button class="pestana" role="tab" aria-selected="false" aria-controls="sec-reglas" id="tab-reglas" data-seccion="reglas">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>Reglas</span>
+        </button>
+        <button class="pestana" role="tab" aria-selected="false" aria-controls="sec-pasos" id="tab-pasos" data-seccion="pasos">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Siguientes pasos</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="envoltura">
+
+    <!-- ============ 1. PREGUNTAR ============ -->
+    <section class="seccion activa" id="sec-preguntar" role="tabpanel" aria-labelledby="tab-preguntar">
+      <div class="sec-cabeza">
+        <h2>Pedidle un mueble, como se lo pediríais a Javi</h2>
+        <p>Escribid el tipo y las medidas (alto × ancho × fondo) como os salga. A la derecha veréis cómo lo piensa.</p>
+      </div>
+
+      <div class="chat-grid">
+        <div class="chat tarjeta">
+          <div class="chat-cabeza">
+            <div class="chat-avatar" aria-hidden="true">G</div>
+            <div class="chat-quien">
+              <strong>Asistente de presupuestos</strong>
+              <span id="chat-estado">en línea</span>
+            </div>
+          </div>
+          <div class="chat-mensajes" id="chat-mensajes" aria-live="polite"></div>
+          <div class="sugerencias" id="chat-sugerencias" aria-label="Ejemplos para escribir"></div>
+          <form class="chat-pie" id="chat-form" autocomplete="off">
+            <input id="chat-input" type="text" placeholder="Ej.: un bajo de 80 por 57 por 58" aria-label="Vuestro mensaje" maxlength="200" enterkeyhint="send">
+            <button class="chat-enviar" type="submit" aria-label="Enviar"><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2.5-6.5z"/></svg></button>
+          </form>
+        </div>
+
+        <aside class="detras tarjeta" aria-labelledby="detras-titulo">
+          <div class="detras-cabeza">
+            <h3 id="detras-titulo">Lo que pasa por detrás</h3>
+            <p>Cada paso que da para llegar al precio.</p>
+          </div>
+          <ol class="detras-lista" id="detras-lista">
+            <li class="detras-vacio">Cuando escribáis, aquí saldrá qué ha entendido, qué ha buscado en la tarifa y qué reglas ha aplicado.</li>
+          </ol>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ 2. NUEVA COCINA ============ -->
+    <section class="seccion" id="sec-cocina" role="tabpanel" aria-labelledby="tab-cocina" hidden>
+      <div class="sec-cabeza">
+        <h2>Nueva cocina</h2>
+        <p>La pestaña que iría en vuestro programa: vais añadiendo módulos y extras, y abajo sale el precio de venta al público. Ya viene una cocina de ejemplo; cambiadla a vuestro gusto.</p>
+      </div>
+
+      <div class="cocina-grid">
+        <div class="cocina-izq">
+          <form class="tarjeta anadir" id="anadir-form" autocomplete="off">
+            <div class="tarjeta-cabeza"><h3>Añadir módulo</h3></div>
+            <div class="campos">
+              <label class="campo campo-tipo">Tipo
+                <select id="m-tipo"></select>
+              </label>
+              <label class="campo">Alto<input id="m-alto" type="number" inputmode="numeric" min="1" max="300" placeholder="80"></label>
+              <label class="campo">Ancho<input id="m-ancho" type="number" inputmode="numeric" min="1" max="300" placeholder="60" required></label>
+              <label class="campo">Fondo<input id="m-fondo" type="number" inputmode="numeric" min="1" max="100" placeholder="58"></label>
+            </div>
+            <p class="campos-nota" id="m-nota"></p>
+            <button class="boton boton-principal" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Añadir</span>
+            </button>
+          </form>
+
+          <div class="tarjeta extras">
+            <div class="tarjeta-cabeza"><h3>Remates y extras</h3></div>
+            <label class="check"><input type="checkbox" id="x-pared-izq" checked><span>El lado izquierdo acaba contra pared</span></label>
+            <label class="check"><input type="checkbox" id="x-pared-der"><span>El lado derecho acaba contra pared</span></label>
+            <label class="check"><input type="checkbox" id="x-zocalo" checked><span>Zócalo en los bajos</span></label>
+            <label class="check"><input type="checkbox" id="x-encimera" checked><span>Encimera laminada</span></label>
+            <label class="check"><input type="checkbox" id="x-tiradores" checked><span>Tiradores</span></label>
+          </div>
+        </div>
+
+        <div class="tarjeta presupuesto">
+          <div class="presu-cabeza">
+            <div>
+              <h3>Presupuesto</h3>
+              <label class="cliente">Cliente<input id="p-cliente" type="text" value="Cocina Marta Ferrer" maxlength="60"></label>
+            </div>
+            <button class="boton" id="p-vaciar" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/></svg><span>Vaciar</span>
+            </button>
+          </div>
+          <div class="presu-tabla-envoltura">
+            <table class="presu-tabla">
+              <thead><tr><th>Concepto</th><th class="num">Coste</th><th class="num">PVP</th><th aria-label="Quitar"></th></tr></thead>
+              <tbody id="p-lineas"></tbody>
+            </table>
+          </div>
+          <ul class="avisos" id="p-avisos"></ul>
+          <div class="totales" id="p-totales"></div>
+          <div class="presu-acciones">
+            <button class="boton boton-principal" id="p-generar" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg><span>Ver presupuesto para el cliente</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 3. REGLAS ============ -->
+    <section class="seccion" id="sec-reglas" role="tabpanel" aria-labelledby="tab-reglas" hidden>
+      <div class="sec-cabeza">
+        <h2>Lo que sabe y lo que le falta</h2>
+        <p>Así “piensa” el asistente. Las reglas en verde salieron en la reunión; las doradas son supuestos de ejemplo hasta que Javi nos pase los condicionantes reales.</p>
+      </div>
+
+      <div class="reglas-grid">
+        <ul class="reglas" id="reglas-lista"></ul>
+
+        <div class="tarjeta pendiente">
+          <div class="tarjeta-cabeza"><h3>Lo que necesitamos de Javi</h3></div>
+          <p class="pendiente-intro">Por escrito y como salga, aunque sea en notas de WhatsApp. Cada regla que nos paséis es una cosa menos que revisar a mano.</p>
+          <ul class="pendiente-lista">
+            <li>Cuándo un módulo lleva una puerta, dos o cajones</li>
+            <li>Remates: tapetas, regletas, zócalo, rinconeras, costados vistos</li>
+            <li>Medidas habituales por tipo de módulo (alto y fondo por defecto)</li>
+            <li>Qué hacer cuando una medida no existe y no se puede redondear</li>
+            <li>Extras que se suelen olvidar (iluminación, encimera, electrodomésticos…)</li>
+            <li>Si el margen es siempre 35 % o cambia según el producto</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tarjeta tarifa">
+        <div class="tarjeta-cabeza tarifa-cabeza">
+          <h3>Tarifa del proveedor</h3>
+          <div class="tarifa-filtro" id="tarifa-filtro" role="tablist" aria-label="Tipo de módulo"></div>
+        </div>
+        <p class="aviso-ejemplo">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+          <span>Precios de ejemplo con la misma forma que el Excel del proveedor. Con el Excel real no hace falta tocar nada: se carga tal cual.</span>
+        </p>
+        <div class="tarifa-tabla-envoltura" id="tarifa-tabla"></div>
+      </div>
+    </section>
+
+    <!-- ============ 4. SIGUIENTES PASOS ============ -->
+    <section class="seccion" id="sec-pasos" role="tabpanel" aria-labelledby="tab-pasos" hidden>
+      <div class="sec-cabeza">
+        <h2>Cómo seguimos</h2>
+        <p>Lo que quedó hablado en la reunión, en orden.</p>
+      </div>
+
+      <ol class="linea-tiempo">
+        <li class="hecho">
+          <span class="lt-cuando">Hecho</span>
+          <b>Tarifa del proveedor y proceso</b>
+          <span>Nos vale el Excel tal como lo manda el proveedor; no hace falta pasarlo a pestañas.</span>
+        </li>
+        <li class="ahora">
+          <span class="lt-cuando">Ahora</span>
+          <b>Condicionantes de Javi</b>
+          <span>Las reglas de montaje por escrito (puertas, tapetas, remates…). Sin prisa, pero es lo que más afina el resultado.</span>
+        </li>
+        <li>
+          <span class="lt-cuando">Semana que viene</span>
+          <b>Prueba sencilla, gratis</b>
+          <span>Conectada a la tarifa real, para que la probéis en vivo y nos digáis qué cambiar.</span>
+        </li>
+        <li>
+          <span class="lt-cuando">1–2 semanas después</span>
+          <b>Versión final</b>
+          <span>Como pestaña “Nueva cocina” en vuestro programa. Si aún no está listo, mientras tanto por Telegram: lo de detrás es lo mismo.</span>
+        </li>
+        <li>
+          <span class="lt-cuando">Primeras semanas de uso</span>
+          <b>Afinar con prueba y error</b>
+          <span>Lo que se nos olvide pasar saldrá al usarlo. Cada cosa que falte se añade como una regla más.</span>
+        </li>
+      </ol>
+
+      <div class="relacionado">
+        <a class="tarjeta enlace-demo" href="https://montelier-demo-astra.netlify.app/" target="_blank" rel="noopener">
+          <span class="enlace-ico" aria-hidden="true">M</span>
+          <span>
+            <b>Demo de Montelier: asistente y facturas</b>
+            <small>Preguntarle a la base de datos, emitir una factura desde un presupuesto aceptado y mandarla al cliente.</small>
+          </span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </a>
+        <div class="tarjeta pendientes-otros">
+          <div class="tarjeta-cabeza"><h3>Otros temas abiertos</h3></div>
+          <ul>
+            <li><b>VeriFactu:</b> conectar las facturas de Montelier con la gestoría (obligatorio desde el 1 de enero de 2027). Pendiente de tener el acceso.</li>
+            <li><b>Facturas cobradas:</b> si la gestoría tiene el banco conectado, se marca sola la factura como cobrada. Sin pediros claves del banco.</li>
+            <li><b>Correos:</b> cuentas en calentamiento 2–3 semanas antes de lanzar la campaña; el texto ya está hablado con Fernando.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Vista del presupuesto para el cliente -->
+  <div class="hoja-fondo" id="hoja" hidden>
+    <div class="hoja" role="dialog" aria-modal="true" aria-labelledby="hoja-titulo">
+      <div class="hoja-barra">
+        <span>Vista previa</span>
+        <div>
+          <button class="boton" id="hoja-imprimir" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9V3h10v6M7 17H4v-7h16v7h-3M7 14h10v7H7z"/></svg><span>Imprimir / PDF</span></button>
+          <button class="boton" id="hoja-cerrar" type="button" aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        </div>
+      </div>
+      <div class="hoja-papel" id="hoja-papel"></div>
+    </div>
+  </div>
+
+  <footer class="pie envoltura">
+    <p>Demostración preparada por Polaris. La tarifa, los clientes y las cifras son de ejemplo.</p>
+  </footer>
+
+  <script src="js/tarifa.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
