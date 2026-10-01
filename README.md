@@ -1,5 +1,7 @@
 # Carlo Mar Charter · Demostración
 
+> En la carpeta [`jordi/`](jordi/) hay otra demo, la del agente de WhatsApp para Jordi (chárter con flota de lanchas, n8n + Chatwoot en VPS propio).
+
 Web de demostración preparada por **Polaris, agencia de inteligencia artificial**, para Carlo Mar Charter (Mallorca).
 
 Enseña en una sola página, y pensada para verla en el móvil, cómo trabajaría el sistema con el negocio:
