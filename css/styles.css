@@ -549,3 +549,93 @@ main { padding-bottom: 40px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* =========================================================
+   4. PROBADLO
+   ========================================================= */
+.pestanas-in { grid-template-columns: repeat(4, 1fr); max-width: 640px; }
+@media (max-width: 479px) {
+  .pestana { font-size: 13.5px; padding: 10px 2px; gap: 0; }
+  .pestana svg { display: none; }
+}
+.pestana-probar:not(.activa) { color: #a8711a; }
+
+.cta-probar {
+  width: 100%; margin-top: 20px; cursor: pointer; text-align: left;
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  background: var(--dorado-suave); border: 1px solid #f0d9ae; border-radius: var(--radio);
+  padding: 16px 18px; color: var(--marino); transition: border-color .2s;
+}
+.cta-probar:hover { border-color: var(--dorado); }
+.cta-probar b { display: block; font-size: 16px; }
+.cta-probar span { font-size: 14px; color: var(--texto-2); }
+.cta-probar svg { width: 22px; height: 22px; flex: none; fill: none; stroke: var(--dorado); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+.probar-modo {
+  display: inline-grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 16px;
+  background: var(--blanco); border: 1px solid var(--linea); border-radius: 12px; padding: 4px;
+}
+.modo {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  border: 0; background: transparent; border-radius: 9px; padding: 9px 16px;
+  font-size: 14.5px; font-weight: 600; color: var(--texto-2); cursor: pointer;
+}
+.modo svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.modo.activo { background: var(--dorado); color: #fff; }
+.modo:focus-visible, .sugerencia:focus-visible, .cta-probar:focus-visible { outline: 2px solid var(--dorado); outline-offset: 2px; }
+
+.sim-pie { margin: 0; }
+.sim-input {
+  border: 0; outline: none; color: var(--wa-texto); min-width: 0;
+  font: inherit; font-size: 16px; /* 16px evita el zoom del iPhone al escribir */
+}
+.sim-input::placeholder { color: #8696a0; }
+.sim-enviar { border: 0; cursor: pointer; }
+.sim-enviar svg { fill: #fff; stroke: none; width: 20px; height: 20px; }
+
+.sugerencias {
+  width: 100%; max-width: 380px; display: flex; flex-wrap: wrap; gap: 6px;
+}
+.sugerencia {
+  border: 1px solid var(--linea); background: var(--blanco); color: var(--marino);
+  border-radius: 999px; padding: 6px 12px; font-size: 13.5px; cursor: pointer; text-align: left;
+  transition: border-color .15s, background .15s;
+}
+.sugerencia:hover { border-color: var(--dorado); background: var(--dorado-suave); }
+.sim-lista { max-height: 560px; overflow-y: auto; }
+.sim-vacio { font-size: 14px; color: var(--texto-3); padding: 10px 0; }
+
+.simc-grid { display: grid; gap: 16px; }
+@media (min-width: 900px) { .simc-grid { grid-template-columns: 400px 1fr; gap: 28px; align-items: start; } }
+.simc-form { padding: 16px; display: grid; gap: 12px; }
+@media (min-width: 900px) { .simc-form { padding: 20px 22px; position: sticky; top: 84px; } }
+.simc-cabeza { display: flex; align-items: baseline; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid var(--linea); }
+.simc-cabeza strong { font-size: 16px; }
+.simc-cabeza span { font-size: 13px; color: var(--texto-2); }
+.simc-form label { display: grid; gap: 5px; font-size: 13px; font-weight: 600; color: var(--texto-2); }
+.simc-form input, .simc-form textarea {
+  font: inherit; font-size: 16px; color: var(--texto); width: 100%;
+  border: 1px solid var(--linea); border-radius: 10px; padding: 10px 12px; background: var(--fondo);
+  resize: vertical; line-height: 1.45;
+}
+.simc-form input:focus, .simc-form textarea:focus { outline: none; border-color: var(--dorado); background: #fff; }
+.simc-nota { margin: -2px 0 2px; font-size: 13px; color: var(--texto-3); }
+.simc-form .boton { width: 100%; }
+
+.simc-resultado { display: grid; gap: 12px; min-width: 0; }
+.simc-espera {
+  display: flex; gap: 12px; align-items: center; padding: 18px;
+  border: 1px dashed #c9d2de; border-radius: var(--radio); color: var(--texto-2); font-size: 14px;
+}
+.simc-espera p { margin: 0; }
+.simc-espera svg { width: 28px; height: 28px; flex: none; fill: none; stroke: var(--texto-3); stroke-width: 1.6; stroke-linejoin: round; }
+.simc-recibido {
+  display: grid; grid-template-columns: 36px 1fr auto; gap: 10px; align-items: center;
+  background: var(--blanco); border: 1px solid var(--linea); border-radius: 12px; padding: 12px 14px;
+  animation: aparecer .35s ease;
+}
+.simc-recibido-txt { min-width: 0; display: flex; flex-direction: column; }
+.simc-recibido-txt b { font-size: 14.5px; }
+.simc-recibido-txt span { font-size: 13.5px; color: var(--texto-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.simc-pasos { background: var(--blanco); border: 1px solid var(--linea); border-radius: 12px; padding: 14px 14px 12px; }
+.simc-resultado .correo-respuesta, .simc-resultado .nota-agenda { animation: aparecer .4s ease; }

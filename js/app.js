@@ -108,6 +108,28 @@
     b.addEventListener('click', function () { irA(b.getAttribute('data-seccion')); });
   });
 
+  /* "Probadlo": cambiar entre WhatsApp y correo */
+  function modoProbar(modo) {
+    $$('.probar-modo .modo').forEach(function (b) {
+      var si = b.getAttribute('data-modo') === modo;
+      b.classList.toggle('activo', si);
+      b.setAttribute('aria-selected', si ? 'true' : 'false');
+    });
+    var wa = $('#probar-wa'), co = $('#probar-correo');
+    if (wa) wa.hidden = modo !== 'wa';
+    if (co) co.hidden = modo !== 'correo';
+  }
+  $$('.probar-modo .modo').forEach(function (b) {
+    b.addEventListener('click', function () { modoProbar(b.getAttribute('data-modo')); });
+  });
+  $$('[data-ir]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.getAttribute('data-modo-ir')) modoProbar(b.getAttribute('data-modo-ir'));
+      irA(b.getAttribute('data-ir'));
+      window.scrollTo(0, $('.pestanas').getBoundingClientRect().top + window.pageYOffset);
+    });
+  });
+
   /* =========================================================
      1. WHATSAPP
      ========================================================= */
