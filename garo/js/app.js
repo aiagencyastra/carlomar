@@ -1,12 +1,12 @@
 /*
-  Garau · Presupuestador — funcionamiento
+  Garo · Presupuestador — funcionamiento
   Pestañas, chat que entiende medidas, constructor de cocina, reglas y tarifa.
   Los datos y las reglas están en js/tarifa.js.
 */
 (function () {
   'use strict';
 
-  var G = window.GARAU;
+  var G = window.GARO;
   var euros = G.euros;
 
   function $(s, c) { return (c || document).querySelector(s); }
@@ -394,7 +394,7 @@
       return '<tr><td>' + escapar(l.texto) + '</td><td class="num">' + euros(l.pvp) + '</td></tr>';
     }).join('');
     $('#hoja-papel').innerHTML =
-      '<div class="doc-cabeza"><div><div class="doc-marca">GARAU</div><div class="doc-sub">Cocinas y mobiliario</div></div>' +
+      '<div class="doc-cabeza"><div><div class="doc-marca">GARO</div><div class="doc-sub">Cocinas y mobiliario</div></div>' +
       '<div class="doc-num"><b id="hoja-titulo">Presupuesto</b><span>Nº P-' + hoy.getFullYear() + '-0' + (40 + cocina.length) + '</span><span>' + fecha + '</span></div></div>' +
       '<div class="doc-cliente"><span>Para</span><b>' + escapar($('#p-cliente').value || 'Cliente') + '</b></div>' +
       '<table class="doc-tabla"><thead><tr><th>Concepto</th><th class="num">Importe</th></tr></thead><tbody>' + filas + '</tbody></table>' +

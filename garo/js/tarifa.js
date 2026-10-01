@@ -1,10 +1,10 @@
 /*
-  Garau · Presupuestador — datos
+  Garo · Presupuestador — datos
   Tarifa DE EJEMPLO con la forma del Excel del proveedor (medidas disponibles
   por tipo de módulo) y las reglas con las que piensa el asistente.
   Cuando llegue la tarifa real y los condicionantes de Javi, solo cambia este archivo.
 */
-window.GARAU = (function () {
+window.GARO = (function () {
   'use strict';
 
   var MARGEN = 0.35;      // 35 % sobre coste
