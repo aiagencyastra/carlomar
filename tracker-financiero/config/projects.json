@@ -1,0 +1,63 @@
+{
+  "_doc": "Reglas de imputación. Cascada: 1) tags de Holded (línea y documento) 2) keywords/regex en concepto 3) contacto/proveedor. Lo que no encaje en un proyecto se evalúa contra 'overhead'; si tampoco encaja -> Sin Asignar.",
+  "projects": [
+    {
+      "id": "skyla",
+      "name": "Skyla",
+      "tags": ["skyla"],
+      "keywords": ["\\bskyla\\b"],
+      "contacts": ["Skyla Travel Tech SL"]
+    },
+    {
+      "id": "polaris",
+      "name": "Polaris",
+      "tags": ["polaris"],
+      "keywords": ["\\bpolaris\\b"],
+      "contacts": []
+    },
+    {
+      "id": "ethos",
+      "name": "Ethos",
+      "tags": ["ethos"],
+      "keywords": ["\\bethos\\b"],
+      "contacts": ["Grupo Ethos Consulting SL", "Dra. Elena Ruiz Abad"]
+    },
+    {
+      "id": "hornymoon",
+      "name": "Hornymoon",
+      "tags": ["hornymoon"],
+      "keywords": ["\\bhornymoon\\b"],
+      "contacts": ["Hornymoon Experiences SL", "Marta Creative Studio"]
+    },
+    {
+      "id": "carlomar",
+      "name": "Carlo Mar",
+      "tags": ["carlomar", "carlo-mar"],
+      "keywords": ["carlo\\s*mar"],
+      "contacts": ["Carlo Mar Charter SL"]
+    },
+    {
+      "id": "orion",
+      "name": "Orion",
+      "tags": ["orion"],
+      "keywords": ["\\borion\\b"],
+      "contacts": ["Orion Retail Group SA", "Snowflake Computing Ltd"]
+    }
+  ],
+  "overhead": {
+    "tags": ["overhead", "general", "estructura", "comun"],
+    "keywords": ["asesor", "gestor", "holded", "workspace", "notion", "seguro", "alquiler", "coworking", "telefon", "fibra"],
+    "contacts": ["Palma Hub Coworking SL", "Vodafone España SAU"]
+  },
+  "bank_rules": [
+    {"pattern": "n[oó]mina", "label": "Personal · nóminas", "in_pnl": true},
+    {"pattern": "seguridad social|tgss", "label": "Personal · Seguridad Social", "in_pnl": true},
+    {"pattern": "comisi[oó]n|mantenimiento cuenta", "label": "Comisiones bancarias", "in_pnl": true},
+    {"pattern": "modelo\\s*(303|111|115|130)|aeat|hacienda", "label": "Impuestos (liquidación)", "in_pnl": false}
+  ],
+  "matching": {
+    "amount_tolerance": 0.01,
+    "date_window_days": 75
+  },
+  "overhead_allocation": "revenue"
+}
