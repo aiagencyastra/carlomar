@@ -5,3 +5,4 @@ __pycache__/
 exports/*
 !exports/.gitkeep
 web/
+astra-tracker-web.zip
