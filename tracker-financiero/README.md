@@ -37,6 +37,17 @@ Se abre en `http://localhost:8501`.
 | `python main.py check` | Prueba la clave de Holded |
 | `python -m pytest` | 42 tests (cliente, motor, conciliación, KPIs, exportador, dashboard) |
 
+### Versión web estática (Netlify)
+
+```bash
+python scripts/build_web.py      # genera web/ (index.html + motor en Python)
+```
+
+`web/` es un sitio 100 % estático: con [stlite](https://github.com/whitphx/stlite) el mismo
+dashboard corre en el navegador del visitante (Python en WebAssembly), sin servidor. Siempre en
+modo demo con el fixture sintético; nunca incluye `.env` ni claves. Se publica arrastrando `web/`
+a Netlify (o `netlify deploy --prod --dir web`). La primera carga tarda unos 20 s.
+
 ### Conectar con Holded real
 
 ```bash
