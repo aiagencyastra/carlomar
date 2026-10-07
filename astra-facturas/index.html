@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Astra · Facturas</title>
+  <meta name="description" content="Registra una factura en segundos: IVA, IRPF, cuenta contable y asiento calculados solos, y subida a Holded." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧾</text></svg>" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">✦</span>
+      <div>
+        <strong>Astra · Facturas</strong>
+        <span class="muted">Registro automático conectado a Holded</span>
+      </div>
+    </div>
+    <span class="badge" title="Las facturas no se envían a Holded: se simula la subida">● Demo · subida simulada</span>
+  </header>
+
+  <main class="layout">
+    <!-- ============================== FORMULARIO -->
+    <section class="card form-card" aria-labelledby="t-form">
+      <div class="card-head">
+        <h1 id="t-form">Nueva factura</h1>
+        <div class="examples" aria-label="Rellenar con un ejemplo">
+          <span class="muted small">Ejemplos:</span>
+          <button type="button" class="chip" data-example="meta">Meta Ads</button>
+          <button type="button" class="chip" data-example="freelance">Freelance</button>
+          <button type="button" class="chip" data-example="aws">AWS</button>
+          <button type="button" class="chip" data-example="hotel">Hotel</button>
+          <button type="button" class="chip" data-example="skyla">Venta</button>
+          <button type="button" class="chip" data-example="eu">Venta UE</button>
+        </div>
+      </div>
+
+      <form id="form" autocomplete="off" novalidate>
+        <div class="seg" role="radiogroup" aria-label="Tipo de factura">
+          <button type="button" role="radio" data-kind="venta" aria-checked="false">
+            <span class="seg-icon">↗</span> Venta <small>emitida por Astra</small>
+          </button>
+          <button type="button" role="radio" data-kind="compra" aria-checked="true">
+            <span class="seg-icon">↘</span> Compra / gasto <small>recibida de un proveedor</small>
+          </button>
+        </div>
+
+        <div class="grid2">
+          <label class="field span2">
+            <span id="contactLabel">Proveedor</span>
+            <input id="contactName" list="contacts" placeholder="Nombre o razón social" required />
+            <datalist id="contacts"></datalist>
+          </label>
+          <label class="field">
+            <span>NIF / CIF / VAT</span>
+            <input id="nif" placeholder="B12345678 · IE9692928F" />
+            <small id="nifHint" class="hint"></small>
+          </label>
+          <label class="field">
+            <span>Fecha de la factura</span>
+            <input id="date" type="date" required />
+          </label>
+          <label class="field span2">
+            <span>Concepto</span>
+            <input id="concept" placeholder="Ej.: Campaña Meta Ads octubre" required />
+          </label>
+          <label class="field">
+            <span>Importe (€)</span>
+            <input id="amount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0,00" required />
+            <label class="check"><input id="inclVat" type="checkbox" /> El importe ya incluye IVA</label>
+          </label>
+          <label class="field">
+            <span>Vencimiento</span>
+            <select id="dueDays">
+              <option value="0">Al contado</option>
+              <option value="15">15 días</option>
+              <option value="30" selected>30 días</option>
+              <option value="60">60 días</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="attachWrap" class="attach">
+          <span class="field-label">Factura del proveedor (PDF o foto)</span>
+          <label id="drop" class="drop" tabindex="0">
+            <input id="file" type="file" accept="application/pdf,image/*" hidden />
+            <span class="drop-icon" aria-hidden="true">⇪</span>
+            <span><strong>Arrastra aquí el PDF o la foto</strong> o pulsa para elegirla</span>
+            <small class="muted">PDF, JPG o PNG · se adjunta a la factura en Holded</small>
+          </label>
+          <div id="filePreview" class="file-preview" hidden></div>
+        </div>
+
+        <details class="auto" open>
+          <summary>Cálculo automático <span class="muted small">— puedes corregir cualquier valor</span></summary>
+          <div class="grid3">
+            <label class="field">
+              <span>Cuenta contable</span>
+              <select id="account"></select>
+            </label>
+            <label class="field">
+              <span>IVA</span>
+              <select id="vatKey"></select>
+            </label>
+            <label class="field">
+              <span>Retención IRPF</span>
+              <select id="irpf"></select>
+            </label>
+          </div>
+        </details>
+      </form>
+    </section>
+
+    <!-- ============================== VISTA PREVIA -->
+    <aside class="card preview" aria-labelledby="t-prev">
+      <div class="card-head">
+        <h2 id="t-prev">Así se registrará</h2>
+        <span id="pvKind" class="pill"></span>
+      </div>
+
+      <div class="party">
+        <div><span class="muted small" id="pvPartyLabel">Proveedor</span><strong id="pvParty">—</strong><span id="pvNif" class="muted small"></span></div>
+        <div class="right"><span class="muted small">Fecha · vence</span><strong id="pvDates">—</strong></div>
+      </div>
+
+      <dl class="totals">
+        <div><dt>Base imponible</dt><dd id="pvBase">0,00 €</dd></div>
+        <div><dt id="pvVatLabel">IVA 21 %</dt><dd id="pvVat">0,00 €</dd></div>
+        <div id="pvIrpfRow"><dt id="pvIrpfLabel">Retención IRPF</dt><dd id="pvIrpf">0,00 €</dd></div>
+        <div class="grand"><dt id="pvTotalLabel">Total a pagar</dt><dd id="pvTotal">0,00 €</dd></div>
+      </dl>
+
+      <div class="explain">
+        <div class="ex-row"><span class="ex-tag">Cuenta</span><div><strong id="pvAccount">—</strong><p id="pvAccountWhy" class="muted small"></p></div></div>
+        <div class="ex-row"><span class="ex-tag">IVA</span><div><strong id="pvVatMode">—</strong><p id="pvVatWhy" class="muted small"></p></div></div>
+        <div class="ex-row"><span class="ex-tag">IRPF</span><div><strong id="pvIrpfMode">—</strong><p id="pvIrpfWhy" class="muted small"></p></div></div>
+      </div>
+
+      <h3 class="sub">Asiento contable</h3>
+      <table class="journal">
+        <thead><tr><th>Cuenta</th><th class="num">Debe</th><th class="num">Haber</th></tr></thead>
+        <tbody id="journal"></tbody>
+        <tfoot><tr><th>Total</th><th class="num" id="jDebe"></th><th class="num" id="jHaber"></th></tr></tfoot>
+      </table>
+
+      <ul id="warnings" class="warnings"></ul>
+
+      <button id="submit" type="button" class="btn primary block">Subir a Holded</button>
+      <p class="muted small center">Demo: se simula la subida y se guarda en el registro de abajo.</p>
+    </aside>
+
+    <!-- ============================== REGISTRO -->
+    <section class="card records span-all" aria-labelledby="t-rec">
+      <div class="card-head">
+        <h2 id="t-rec">Facturas registradas</h2>
+        <div class="actions">
+          <button id="exportCsv" type="button" class="btn">Exportar CSV</button>
+          <button id="resetDemo" type="button" class="btn ghost">Reiniciar demo</button>
+        </div>
+      </div>
+      <div id="summary" class="summary"></div>
+      <div class="table-wrap">
+        <table class="list">
+          <thead>
+            <tr><th>Fecha</th><th>Tipo</th><th>Nº</th><th>Contacto</th><th>Concepto</th><th>Cuenta</th>
+              <th class="num">Base</th><th class="num">IVA</th><th class="num">IRPF</th><th class="num">Total</th><th>Adjunto</th><th>Holded</th></tr>
+          </thead>
+          <tbody id="records"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================== PROGRESO DE SUBIDA -->
+  <dialog id="modal" class="modal" aria-labelledby="m-title">
+    <h2 id="m-title">Subiendo a Holded…</h2>
+    <ol id="steps" class="steps"></ol>
+    <div id="mResult" hidden>
+      <p class="ok-msg" id="mOk"></p>
+      <details class="payload"><summary>Ver la petición que se envía a la API de Holded</summary><pre id="mPayload"></pre></details>
+    </div>
+    <div class="modal-actions"><button id="mClose" type="button" class="btn primary" disabled>Listo</button></div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
