@@ -1,6 +1,6 @@
 """Generador determinista de datos sintéticos con el schema JSON de Holded.
 
-Empresa ficticia: una agencia de IA con seis proyectos en paralelo
+Empresa: Astra, agencia de IA con seis proyectos en paralelo
 (Skyla, Polaris, Ethos, Hornymoon, Carlo Mar, Orion) más gastos de estructura.
 El set está diseñado para que la demo cuente una historia:
 
@@ -23,7 +23,7 @@ from typing import Any
 
 DEFAULT_AS_OF = date(2026, 10, 6)
 DEFAULT_SEED = 20261006
-COMPANY = "Polaris AI Studio SL"
+COMPANY = "Astra AI Agency SL"
 
 BBVA = "bank_bbva"
 REVOLUT = "bank_revolut"

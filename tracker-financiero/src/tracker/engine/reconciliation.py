@@ -109,6 +109,10 @@ def match_payments(dataset: Dataset, rules: Rules, overrides: Overrides | None =
 
 
 # ------------------------------------------------------------------ alertas
+def _eur(x: float) -> str:
+    return f"{x:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".") + " €"
+
+
 class Severity(StrEnum):
     CRITICAL = "critical"
     SERIOUS = "serious"
@@ -151,13 +155,13 @@ def build_alerts(
             alerts.append(Alert(
                 f"overdue-in:{d.id}", Severity.CRITICAL if days > 30 else Severity.SERIOUS,
                 "Cobro vencido", f"{d.number} · {d.contact_name}",
-                f"Vencida hace {days} días · pendiente {d.pending:,.2f} €",
+                f"Vencida hace {days} días · pendiente {_eur(d.pending)}",
                 d.pending, d.due_date or d.issue_date, doc_projects.get(d.id), d.id, action="reclamar",
             ))
         elif d.status is PayStatus.OVERDUE and d.kind is DocKind.EXPENSE:
             alerts.append(Alert(
                 f"overdue-out:{d.id}", Severity.SERIOUS, "Pago vencido", f"{d.number} · {d.contact_name}",
-                f"Vencido hace {days} días · pendiente {d.pending:,.2f} €",
+                f"Vencido hace {days} días · pendiente {_eur(d.pending)}",
                 d.pending, d.due_date or d.issue_date, doc_projects.get(d.id), d.id, action="pagar",
             ))
         if d.is_draft:
@@ -185,7 +189,7 @@ def build_alerts(
             alerts.append(Alert(
                 f"nodoc:{p.id}", Severity.SERIOUS if abs(p.amount) >= 1000 else Severity.WARNING,
                 "Movimiento sin factura", p.description or "Movimiento bancario",
-                f"{'Entrada' if p.amount > 0 else 'Salida'} de {abs(p.amount):,.2f} € sin documento que lo soporte",
+                f"{'Entrada' if p.amount > 0 else 'Salida'} de {_eur(abs(p.amount))} sin documento que lo soporte",
                 p.amount, p.date, None, payment_id=p.id, action="conciliar",
             ))
 

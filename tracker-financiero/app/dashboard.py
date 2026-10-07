@@ -304,26 +304,27 @@ with tab_recon:
 
     # ---- Gastos sin proyecto: reasignar
     st.markdown('<div class="section-title">🧭 Gastos sin proyecto asignado</div>'
-                '<div class="section-sub">Elige el destino y pulsa «Aplicar»: el P&L y los KPIs se recalculan '
-                'al instante.</div>', unsafe_allow_html=True)
+                '<div class="section-sub">Elige el destino de cada gasto y pulsa «Aplicar»: el P&L y los KPIs '
+                'se recalculan al instante.</div>', unsafe_allow_html=True)
     un = by_cat.get("Sin proyecto asignado", [])
     if un:
-        df_un = pd.DataFrame([{"id": a.doc_id, "Fecha": a.date, "Documento": a.title, "Detalle": a.detail,
-                               "Importe": a.amount, "Asignar a": ""} for a in un])
-        edited = st.data_editor(
-            df_un, hide_index=True, width="stretch", key="editor_unassigned",
-            disabled=["Fecha", "Documento", "Detalle", "Importe"],
-            column_config={"id": None, "Importe": st.column_config.NumberColumn(format="%.2f €"),
-                           "Asignar a": st.column_config.SelectboxColumn(options=list(labels_all.values()),
-                                                                         width="medium")})
-        if st.button("Aplicar reasignación", type="primary", key="apply_assign"):
-            chosen = edited[edited["Asignar a"].fillna("") != ""]
-            for _, rw in chosen.iterrows():
-                overrides().projects[rw["id"]] = inv_labels[rw["Asignar a"]]
-            if len(chosen):
-                flash(f"{len(chosen)} gasto(s) reasignado(s) · KPIs recalculados")
-                st.rerun()
-            st.info("Selecciona al menos un proyecto en la columna «Asignar a».")
+        pending = "— elegir —"
+        with st.form("form_unassigned", border=True):
+            choices: dict[str, str] = {}
+            for a in un:
+                c1, c2, c3 = st.columns([4.2, 1.1, 2.2], vertical_alignment="center")
+                c1.markdown(f"**{a.title}**  \n<span style='color:#7e828f;font-size:.85rem'>"
+                            f"{a.date:%d/%m/%Y} · {a.detail}</span>", unsafe_allow_html=True)
+                c2.markdown(f"**{ui.eur(a.amount, 2)}**")
+                choices[a.doc_id] = c3.selectbox("Asignar a", [pending] + list(labels_all.values()),
+                                                 key=f"assign_{a.doc_id}", label_visibility="collapsed")
+            if st.form_submit_button("Aplicar reasignación", type="primary"):
+                chosen = {d: inv_labels[v] for d, v in choices.items() if v != pending}
+                overrides().projects.update(chosen)
+                if chosen:
+                    flash(f"{len(chosen)} gasto(s) reasignado(s) · KPIs recalculados")
+                    st.rerun()
+                st.info("Elige al menos un destino en los desplegables.")
     else:
         st.success("Todo el gasto está imputado a un proyecto u overhead. 🎯")
 
@@ -334,25 +335,32 @@ with tab_recon:
     nodoc = by_cat.get("Movimiento sin factura", [])
     if nodoc:
         open_docs = [d for d in dataset.documents if not d.is_draft and d.status is not PayStatus.CANCELLED]
-        doc_opts = {f"{d.number} · {d.contact_name} · {ui.eur(d.total, 2)}": d.id for d in open_docs}
+        pending = "— elegir —"
         just = "✔ Justificar sin factura"
-        df_nd = pd.DataFrame([{"id": a.payment_id, "Fecha": a.date, "Movimiento": a.title,
-                               "Importe": a.amount, "Conciliar con": ""} for a in nodoc])
-        edited = st.data_editor(
-            df_nd, hide_index=True, width="stretch", key="editor_nodoc",
-            disabled=["Fecha", "Movimiento", "Importe"],
-            column_config={"id": None, "Importe": st.column_config.NumberColumn(format="%.2f €"),
-                           "Conciliar con": st.column_config.SelectboxColumn(
-                               options=[just] + list(doc_opts), width="large")})
-        if st.button("Conciliar movimientos", type="primary", key="apply_recon"):
-            chosen = edited[edited["Conciliar con"].fillna("") != ""]
-            for _, rw in chosen.iterrows():
-                target = rw["Conciliar con"]
-                overrides().payment_links[rw["id"]] = JUSTIFIED if target == just else doc_opts[target]
-            if len(chosen):
-                flash(f"{len(chosen)} movimiento(s) conciliado(s)")
-                st.rerun()
-            st.info("Elige un documento o «Justificar» en la columna «Conciliar con».")
+        with st.form("form_nodoc", border=True):
+            links: dict[str, str] = {}
+            doc_opts_by_payment: dict[str, dict[str, str]] = {}
+            for a in nodoc:
+                # Solo documentos del mismo signo (cobro <-> venta, pago <-> compra), los más parecidos primero
+                kind = DocKind.INCOME if a.amount > 0 else DocKind.EXPENSE
+                cands = sorted((d for d in open_docs if d.kind is kind),
+                               key=lambda d: (abs(d.total - abs(a.amount)), abs((d.issue_date - a.date).days)))[:25]
+                opts = {f"{d.number} · {d.contact_name} · {ui.eur(d.total, 2)}": d.id for d in cands}
+                doc_opts_by_payment[a.payment_id] = opts
+                c1, c2, c3 = st.columns([4.2, 1.1, 2.2], vertical_alignment="center")
+                c1.markdown(f"**{a.title}**  \n<span style='color:#7e828f;font-size:.85rem'>"
+                            f"{a.date:%d/%m/%Y} · {a.detail}</span>", unsafe_allow_html=True)
+                c2.markdown(f"**{ui.eur(a.amount, 2, sign=True)}**")
+                links[a.payment_id] = c3.selectbox("Conciliar con", [pending, just] + list(opts),
+                                                   key=f"link_{a.payment_id}", label_visibility="collapsed")
+            if st.form_submit_button("Conciliar movimientos", type="primary"):
+                chosen = {pid: (JUSTIFIED if v == just else doc_opts_by_payment[pid][v])
+                          for pid, v in links.items() if v != pending}
+                overrides().payment_links.update(chosen)
+                if chosen:
+                    flash(f"{len(chosen)} movimiento(s) conciliado(s)")
+                    st.rerun()
+                st.info("Elige un documento o «Justificar» en los desplegables.")
     else:
         st.success("Todos los movimientos bancarios tienen soporte. 🎯")
 
